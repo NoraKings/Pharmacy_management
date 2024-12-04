@@ -26,12 +26,12 @@
                         <td>{{$drug->expiry_date}}</td>
                         <td>
                             <a href="{{route('drugs.show', $drug->id)}}">View</a>
-                            <a href="{{route('drugs.edit', $drug->id)}}">Edit</a>
+                            {{-- <a href="{{route('drugs.edit', $drug->id)}}">Edit</a>
                             <form action="{{route('drugs.destroy', $drug->id)}}">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" onclick="return confirm('Are you sure?')">Delete</button>
-                            </form>
+                            </form> --}}
                         </td>
                     </tr>   
                 @endforeach

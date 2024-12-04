@@ -46,7 +46,7 @@ class DrugController extends Controller
     //show form for editing a drug
     public function edit($id){
         $drug = Drug::findOrFail($id); //find drug
-        return view('drugs.editd', compact('drug'));
+        return view('drugs.edit', compact('drug'));
     }
 
     //update a drug from storage
