@@ -13,5 +13,8 @@
                 </div>
             </div>
         </div>
+        <div>
+            <a href="{{route ('drugs.index')}}">Drugs</a>
+        </div>
     </div>
 </x-app-layout>

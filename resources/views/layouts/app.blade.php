@@ -32,5 +32,9 @@
                 {{ $slot }}
             </main>
         </div>
+        <footer>
+            <p>&copy; {{date('Y')}} HHH Pharmacy</p>
+        </footer>
     </body>
+
 </html>
