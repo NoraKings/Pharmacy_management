@@ -10,7 +10,7 @@ class Patient extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'file_no', 'email', 'phone', 'address', 'type'
+        'name', 'file_no', 'patient_id','email', 'phone', 'address', 'type'
         ];
 
    public function sales(){
@@ -28,5 +28,9 @@ class Patient extends Model
     return $this->hasMany(Invoice::class)->where('type', 'patient');
    }
    
+   public function prescriptions(){
+
+    return $this->hasMany(Prescription::class);
+   }
     //
 }

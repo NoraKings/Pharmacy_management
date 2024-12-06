@@ -11,8 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('drugs', function (Blueprint $table) {
+        Schema::create('invoices', function (Blueprint $table) {
+            $table->id();
             $table->foreignId('supplier_id')->nullable()->constrained()->onDelete('cascade');
+            $table->foreignId('patient_id')->nullable()->constrained()->onDelete('cascade');
+            $table->string('type'); //supplier or customer
+            $table->decimal('total_amount', 10, 2); //total amount on invoice
+            $table->timestamps();
+
         });
     }
 
@@ -21,9 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('drugs', function (Blueprint $table) {
-            $table->dropForeign(['supplier_id']);
-            $table->dropColumn('supplier_id');
-        });
+        Schema::dropIfExists('invoices');
     }
 };

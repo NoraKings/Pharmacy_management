@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('patients', function (Blueprint $table) {
+        Schema::create('prescriptions', function (Blueprint $table) {
             $table->id();
-            $table->integer('file_no');
-            $table->string('email')->nullable();
-            $table->string('phone');
-            $table->string('address')->nullable();
-            $table->string('type'); //amenity, general, staff, student
+            $table->foreignId('patient_id')->constrained()->onDelete('cascade');
+            $table->foreignId('drug_id')->constrained()->onDelete('cascade');
+            $table->string('dosage');
+            $table->integer('quantity');
+            $table->text('instructions')->nullable();
             $table->timestamps();
         });
     }
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('patients');
+        Schema::dropIfExists('prescriptions');
     }
 };

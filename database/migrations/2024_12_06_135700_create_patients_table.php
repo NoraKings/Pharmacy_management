@@ -11,13 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('drug_invoice', function (Blueprint $table) {
+        Schema::create('patients', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('drug_id')->constrained()->onDelete('cascade');
-            $table->foreignId('invoice_id')->constrained()->onDelete('cascade');
-            $table->integer('quantity');
-            $table->decimal('price', 8, 2);
+            $table->integer('file_no');
+            $table->string('email')->nullable();
+            $table->string('phone');
+            $table->string('address')->nullable();
+            $table->string('type'); //amenity, general, staff, student
             $table->timestamps();
+
         });
     }
 
@@ -26,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('drug_invoice');
+        Schema::dropIfExists('patients');
     }
 };
