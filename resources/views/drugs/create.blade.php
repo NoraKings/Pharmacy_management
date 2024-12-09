@@ -31,14 +31,24 @@
                 <x-input-error :messages="$errors->get('quantity')" class="mt-2" />
             </div>
             <div class="mb-6">
-                <x-input-label for="price" :value="__('price')" />
-                <x-text-input id="price" class="block mt-1 w-full" type="text" name="price" :value="old('price')" required autofocus autocomplete="price" />
-                <x-input-error :messages="$errors->get('price')" class="mt-2" />
+                <x-input-label for="cost_price" :value="__('cost_price')" />
+                <x-text-input id="cost_price" class="block mt-1 w-full" type="text" name="cost_price" :value="old('cost_price')" required autofocus autocomplete="cost_price" />
+                <x-input-error :messages="$errors->get('cost_price')" class="mt-2" />
             </div>
             <div class="mb-6">
                 <x-input-label for="expiry_date" :value="__('expiry_date')" />
                 <x-text-input id="expiry_date" class="block mt-1 w-full" type="text" name="expiry_date" :value="old('expiry_date')" required autofocus autocomplete="expiry_date" />
                 <x-input-error :messages="$errors->get('expiry_date')" class="mt-2" />
+            </div>
+            <div>
+                <label for="">Select Markup Classification</label>
+                <select name="markup_code_id" >
+                    @foreach($markupCodes as $markupCode)
+                        <option value="{{$markupCode->id}}">
+                            {{$markupCode->classification}}
+                        </option>
+                    @endforeach
+                </select>
             </div>
             {{-- <button type="submit">Add Drug</button> --}}
             <x-primary-button class="ms-4">

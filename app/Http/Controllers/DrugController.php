@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\Drug;
-
+use App\Models\MarkupCode;
 use Illuminate\Http\Request;
 
 class DrugController extends Controller
@@ -15,14 +15,25 @@ class DrugController extends Controller
     }
     // Show single drug
     public function show($id){
-        $drug = Drug::findOrFail($id); //find drug or throw a 404 error
-        return view('drugs.show',
-            compact('drug'));
+        $drug = Drug::with('markupCode')->findOrFail($id); //find drug or throw a 404 error
+
+        
+        return view('drugs.show', [
+            'drug' => $drug,
+            'prices' => [
+                'general' => $drug->calculatePrice('general'),
+                'staff' => $drug->calculatePrice('staff'),
+                'amenity' => $drug->calculatePrice('amenity'),
+                'student' => $drug->calculatePrice('student'),
+            ],
+        ]);
     }
 
     //create a drug
     public function create() {
-        return view('drugs.create');
+
+        $markupCodes = MarkupCode::all(); //fetch all markupcodes
+        return view('drugs.create', compact('markupCodes'));
     }
 
     //store a newly created drug
@@ -33,7 +44,7 @@ class DrugController extends Controller
             'description' => 'required|string|max:255',
             'supplier' => 'required|string|max:255',
             'quantity' => 'required|integer|min:1',
-            'price' => 'required|numeric|min:0',
+            'cost_price' => 'required|numeric|min:0',
             'expiry_date' => 'required|date',
 
         ]);
@@ -45,8 +56,10 @@ class DrugController extends Controller
 
     //show form for editing a drug
     public function edit($id){
+       
         $drug = Drug::findOrFail($id); //find drug
-        return view('drugs.edit', compact('drug'));
+        $markupCodes = MarkupCode::all(); //fetch all markupcodes
+        return view('drugs.edit', compact('drug'), compact('markupCodes'));
     }
 
     //update a drug from storage

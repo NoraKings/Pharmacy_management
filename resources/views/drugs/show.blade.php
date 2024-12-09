@@ -7,8 +7,15 @@
             <p>{{$drug->description}}</p>
             <p>{{$drug->supplier}}</p>
             <p>{{$drug->quantity}}</p>
-            <p>{{$drug->price}}</p>
+            <p>{{$drug->cost_price}}</p>
             <p>{{$drug->expiry_date}}</p>
+            <h3>Selling Prices </h3>
+            <ul>
+                <li>General: {{$prices['general']}}</li>
+                <li>Staff: {{$prices['staff']}}</li>
+                <li>Amenity: {{$prices['amenity']}}</li>
+                <li>Student: {{$prices['student']}}</li>
+            </ul>
             <div>
                 <a href="{{route('drugs.edit', $drug->id)}}">Edit</a>
                 <form action="{{route('drugs.destroy', $drug->id)}}">

@@ -10,7 +10,7 @@
                     <th>Description</th>
                     <th>Supplier</th>
                     <th>Quantity</th>
-                    <th>Price</th>
+                    <th>Cost Price</th>
                     <th>Expiry Date</th>
                 </tr>
             </thead>
@@ -22,7 +22,7 @@
                         <td>{{$drug->description}}</td>
                         <td>{{$drug->supplier}}</td>
                         <td>{{$drug->quantity}}</td>
-                        <td>{{$drug->price}}</td>
+                        <td>{{$drug->cost_price}}</td>
                         <td>{{$drug->expiry_date}}</td>
                         <td>
                             <a href="{{route('drugs.show', $drug->id)}}">View</a>
