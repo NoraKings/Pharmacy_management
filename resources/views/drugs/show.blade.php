@@ -3,9 +3,9 @@
 
         
             <h1 class="font-bold text-xl">{{$drug->name}}</h1>
-            <p>{{$drug->category}}</p>
+            <p>{{$drug->Category}}</p>
             <p>{{$drug->description}}</p>
-            <p>{{$drug->supplier}}</p>
+            <p>{{$drug->supplier ?$drug->supplier->name : 'No Supplier'}}</p>
             <p>{{$drug->quantity}}</p>
             <p>{{$drug->cost_price}}</p>
             <p>{{$drug->expiry_date}}</p>

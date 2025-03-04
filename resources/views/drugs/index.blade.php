@@ -18,9 +18,9 @@
                 @foreach ($drugs as $drug)
                     <tr>
                         <td>{{$drug->name}}</td>
-                        <td>{{$drug->category}}</td>
+                        <td>{{$drug->Category ?? 'N/A' }}</td>
                         <td>{{$drug->description}}</td>
-                        <td>{{$drug->supplier}}</td>
+                        <td>{{$drug->supplier ?$drug->supplier->name : 'No Supplier'}}</td>
                         <td>{{$drug->quantity}}</td>
                         <td>{{$drug->cost_price}}</td>
                         <td>{{$drug->expiry_date}}</td>

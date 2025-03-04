@@ -11,11 +11,13 @@ class Drug extends Model
 
     protected $fillable = [
         'name',
+        'category',
         'description',
         'quantity',
         'cost_price',
         'expiry_date',
         'markup_code_id',
+        'supplier_id',
 
     ];
 
@@ -62,7 +64,7 @@ class Drug extends Model
                 return $generalPrice;
 
             case 'staff' :
-                $discount = $markupCode ->staff_discount;
+                $discount = $markupCode ->staf_discount;
                 
                 return $generalPrice - ($generalPrice * $discount /100);
             

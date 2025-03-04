@@ -21,10 +21,17 @@
                 <x-input-error :messages="$errors->get('description')" class="mt-2" />
             </div>
             <div class="mb-6">
-                <x-input-label for="supplier" :value="__('Supplier')" />
-                <x-text-input id="supplier" class="block mt-1 w-full" type="text" name="supplier" :value="old('supplier')" required autofocus autocomplete="supplier" />
-                <x-input-error :messages="$errors->get('supplier')" class="mt-2" />
-            </div>
+                <div>
+                    <label for="supplier_id">Supplier</label>
+                    <select name="supplier_id" id="supplier_id" class="form-control" required>
+                        <option value="" disabled selected>Select Supplier</option>
+                        @foreach($suppliers as $supplier)
+                            <option value="{{$supplier->id}}">
+                                {{$supplier->name}}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
             <div class="mb-6">
                 <x-input-label for="quantity" :value="__('quantity')" />
                 <x-text-input id="quantity" class="block mt-1 w-full" type="text" name="quantity" :value="old('quantity')" required autofocus autocomplete="quantity" />

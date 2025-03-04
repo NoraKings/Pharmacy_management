@@ -3,16 +3,18 @@
 namespace App\Http\Controllers;
 use App\Models\Drug;
 use App\Models\MarkupCode;
+use App\Models\Supplier;
 use Illuminate\Http\Request;
 
 class DrugController extends Controller
 {
     //show all drugs
     public function index (){
-        $drugs = Drug::paginate(5);
-
+        $drugs = Drug::with('supplier')->paginate(10);
+       
         return view('drugs.index', compact('drugs'));
     }
+
     // Show single drug
     public function show($id){
         $drug = Drug::with('markupCode')->findOrFail($id); //find drug or throw a 404 error
@@ -33,7 +35,8 @@ class DrugController extends Controller
     public function create() {
 
         $markupCodes = MarkupCode::all(); //fetch all markupcodes
-        return view('drugs.create', compact('markupCodes'));
+        $suppliers = Supplier::all();
+        return view('drugs.create', compact('markupCodes'), compact('suppliers'));
     }
 
     //store a newly created drug
@@ -42,24 +45,26 @@ class DrugController extends Controller
             'name' => 'required|string|max:255',
             'category' => 'required|string|max:255',
             'description' => 'required|string|max:255',
-            'supplier' => 'required|string|max:255',
+            'supplier_id' => 'required|exists:suppliers,id',
             'quantity' => 'required|integer|min:1',
             'cost_price' => 'required|numeric|min:0',
+            'markup_code_id'=> 'required|exists:markup_codes,id',
             'expiry_date' => 'required|date',
 
         ]);
 
         Drug::create($validated);
 
-        return redirect()->route('drug.index')->with('success', 'Drug added successfully');
+        return redirect()->route('drugs.index')->with('success', 'Drug added successfully');
     }
 
     //show form for editing a drug
     public function edit($id){
        
-        $drug = Drug::findOrFail($id); //find drug
+        $drug = Drug::with('supplier')->findOrFail($id); //find drug
+        $suppliers = Supplier::all();
         $markupCodes = MarkupCode::all(); //fetch all markupcodes
-        return view('drugs.edit', compact('drug'), compact('markupCodes'));
+        return view('drugs.edit', compact('drug'), compact('markupCodes'), compact('suppliers'));
     }
 
     //update a drug from storage
@@ -70,7 +75,7 @@ class DrugController extends Controller
             'description' => 'required|string|max:255',
             'supplier' => 'required|string|max:255',
             'quantity' => 'required|integer|min:1',
-            'price' => 'required|numeric|min:0',
+            'cost_price' => 'required|numeric|min:0',
             'expiry_date' => 'required|date',
 
         ]);
