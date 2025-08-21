@@ -3,6 +3,7 @@
 use App\Http\Controllers\DrugController;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SupplierController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -17,7 +18,7 @@ Route::get('/dashboard', function () {
 Route::resource('drugs', DrugController::class);
 Route::get('patients/search', [PatientController::class, 'searchPage'])->name('patients.search');
 Route::post('patients/show', [PatientController::class, 'showPatient'])->name('patients.show');
-
+Route::resources('suppliers', SupplierController::class);
 // MY ROUTES
 
 Route::middleware('auth')->group(function () {
