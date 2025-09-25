@@ -10,18 +10,32 @@ class SupplierController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        $suppliers = Supplier::paginate(10); // Fetch all suppliers with pagination
-        return view('supplier.index', compact('supplier'));
-    }
+    public function index(Request $request)
+        {
+            // Build the query dynamically
+            $query = Supplier::query();
+
+            // If a company name is provided, filter results
+            if ($request->filled('company')) {
+                $query->where('company', 'like', '%' . $request->company . '%');
+                }
+            // Paginate results
+
+            $suppliers = $query->paginate(10);
+
+            // Keep search term in pagination links
+            $suppliers->appends($request->only('company'));
+
+            return view('suppliers.index', compact('suppliers'));
+        }
+
 
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        return view('supplier.create'); // Return the view to create a new supplier
+        return view('suppliers.create'); // Return the view to create a new supplier
     }
 
     /**
@@ -33,12 +47,12 @@ class SupplierController extends Controller
             'name' => 'required',
             'email' => 'nullable|email',
             'phone' => 'nullable',
-            'address' => 'nullable'
+            'company' => 'nullable'
         ]);
 
         Supplier::create($validated);
 
-        return redirect()->route('supplier.index')->with('success', 'Supplier added successfully');
+        return redirect()->route('suppliers.index')->with('success', 'Supplier added successfully');
     }
 
     /**
@@ -47,7 +61,7 @@ class SupplierController extends Controller
     public function show(string $id)
     {
         $supplier = Supplier::findOrFail($id); // Fetch the supplier or throw a 404 error
-        return view('supplier.show', compact('supplier')); // Return the view with the supplier data
+        return view('suppliers.show', compact('supplier')); // Return the view with the supplier data
     }
 
     /**
@@ -55,7 +69,7 @@ class SupplierController extends Controller
      */
     public function edit(string $id)
     {
-        return view('supplier.edit', [
+        return view('suppliers.edit', [
             'supplier' => Supplier::findOrFail($id) // Fetch the supplier to edit
         ]);
     }
@@ -69,13 +83,13 @@ class SupplierController extends Controller
             'name' => 'required',
             'email' => 'nullable|email',
             'phone' => 'nullable',
-            'address' => 'nullable'
+            'company' => 'nullable'
         ]);
 
         $supplier = Supplier::findOrFail($id);
         $supplier->update($validated);
 
-        return redirect()->route('supplier.index')->with('success', 'Supplier updated successfully');
+        return redirect()->route('suppliers.index')->with('success', 'Supplier updated successfully');
     }
 
     /**
@@ -86,6 +100,6 @@ class SupplierController extends Controller
         $supplier = Supplier::findOrFail($id);
         $supplier->delete();
 
-        return redirect()->route('supplier.index')->with('success', 'Supplier deleted successfully');
+        return redirect()->route('suppliers.index')->with('success', 'Supplier deleted successfully');
     }
 }

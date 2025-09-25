@@ -9,11 +9,26 @@ use Illuminate\Http\Request;
 class DrugController extends Controller
 {
     //show all drugs
-    public function index (){
-        $drugs = Drug::with('supplier')->paginate(10);
-       
-        return view('drugs.index', compact('drugs'));
-    }
+    public function index(Request $request)
+    {
+        // Build the query dynamically
+        $query = Drug::query();
+
+        // If a drug_id is provided, filter results
+        if ($request->filled('name')) {
+            $query->where('name', 'like', '%' . $request->name . '%');
+        }
+
+            // Paginate results
+            $drugs = $query->paginate(10);
+
+            // Keep search term in pagination links
+            $drugs->appends($request->only('name'));
+
+            return view('drugs.index', compact('drugs'));
+        }
+
+    
 
     // Show single drug
     public function show($id){
@@ -55,7 +70,8 @@ class DrugController extends Controller
 
         Drug::create($validated);
 
-        return redirect()->route('drugs.index')->with('success', 'Drug added successfully');
+        session()->flash('success', 'Drug created successfully!');
+        return redirect()->route('drugs.index');
     }
 
     //show form for editing a drug
@@ -84,7 +100,8 @@ class DrugController extends Controller
         //update validated data for drug
         $drug->update($validated);
 
-        return redirect()->route('drugs.index')->with('success', 'Drug updated successfully');
+        session()->flash('success', 'Drug updated successfully!');
+        return redirect()->route('drugs.index');
     }
 
     //remove a drug from storage
@@ -92,6 +109,7 @@ class DrugController extends Controller
         $drug = Drug::findOrFail($id);
         $drug ->delete(); //delete drug
 
-        return redirect()->route('drugs.index')->with('success', 'Drug deleted successfully');
+        session()->flash('success', 'Drug deleted successfully!');
+        return redirect()->route('drugs.index');
     }
 }

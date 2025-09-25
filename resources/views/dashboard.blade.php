@@ -7,15 +7,42 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900 dark:text-gray-100">
-                    {{ __("You're logged in!") }}
-                </div>
+            <div >
+                <x-alert type="success" message="You're logged in!" />
+
             </div>
         </div>
         <div>
-            <a href="{{route ('drugs.index')}}">Drugs</a>
-            <a href="">Patients</a>
+           <x-dashboard-table 
+                title="Top 10 Drugs by Usage" 
+                :items="$topDrugsUsage" 
+                :columns="['Drug','Times Used']" 
+            />
+
+            <x-dashboard-table 
+                title="Top 10 Drugs Near Expiry" 
+                :items="$expiringDrugs" 
+                :columns="['Drug','Expiry Date']" 
+            />
+
+            <x-dashboard-table 
+                title="Top 10 Drugs Low in Stock" 
+                :items="$lowStockDrugs" 
+                :columns="['Drug','Quantity']" 
+            />
+
+            <x-dashboard-table 
+                title="Suppliers with Payment Due This Month" 
+                :items="$suppliersDue" 
+                :columns="['Supplier','Amount Due']" 
+            />
+
+            <x-dashboard-table 
+                title="Top 10 Patients by Debt" 
+                :items="$patientsDebt" 
+                :columns="['Patient','Amount Owed']" 
+            />
+
         </div>
     </div>
 </x-app-layout>

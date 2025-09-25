@@ -10,7 +10,7 @@ class Supplier extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'email', 'phone', 'address'
+        'name', 'email', 'phone', 'company'
     ];
 
    public function drugs(){

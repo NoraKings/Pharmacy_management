@@ -27,7 +27,7 @@
                         <option value="" disabled selected>Select Supplier</option>
                         @foreach($suppliers as $supplier)
                             <option value="{{$supplier->id}}">
-                                {{$supplier->name}}
+                                {{$supplier->company}}
                             </option>
                         @endforeach
                     </select>
